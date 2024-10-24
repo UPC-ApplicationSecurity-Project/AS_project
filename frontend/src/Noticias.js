@@ -1,11 +1,10 @@
-// src/Noticias.js
 import React from 'react';
 
 function Noticias({ onLogout }) {
   return (
     <div style={styles.container}>
-      <h1 style={styles.title}>HOLA</h1>
-      <button onClick={onLogout} style={styles.button}>Cerrar Sesión</button>
+      <h1 style={styles.title}>Bienvenido a Noticias</h1>
+      {/* <button onClick={onLogout} style={styles.button}>Cerrar Sesión</button> */}
     </div>
   );
 }

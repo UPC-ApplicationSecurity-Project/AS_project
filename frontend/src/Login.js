@@ -1,4 +1,3 @@
-// src/Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,31 +6,22 @@ function Login({ onLoginSuccess }) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const dangerousChars = /[`'"\<>]/;
-
-
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // Validar que no haya caracteres peligrosos -> evitar SQLinjection
-    if (dangerousChars.test(username) || dangerousChars.test(password)) {
-        setError('No se permiten caracteres especiales en los campos');
-        return;
-        }
-
-    // Campos no  vacios
-    else if (!username || !password) {
-      setError('Todos los campos son obligatorios');
-      return;
-    }
-    // aquí habrá que hacer llamada a API con username y password como argumentos
-    else if (username === '1' && password === '1') {
+    // Simular validación del usuario
+    if (username === 'user' && password === 'pass') {
       setError('');
-      console.log('Autenticación correcta');
-      onLoginSuccess(); // Actualiza el estado de autenticación
-      navigate('/noticias'); // Redirige a Noticias.js
+      
+      // Simulamos un token
+      const fakeToken = 'abc123token';
+      
+      // Llamamos la función que simula la autenticación exitosa
+      onLoginSuccess(fakeToken);
+
+      navigate('/noticias');
     } else {
       setError('Usuario o contraseña incorrectos');
     }
@@ -39,6 +29,7 @@ function Login({ onLoginSuccess }) {
 
   return (
     <div style={styles.container}>
+      <div style={styles.background}></div> {/* Fondo animado */}
       <h2>Iniciar Sesión</h2>
       <form onSubmit={handleLogin} style={styles.form}>
         <div style={styles.inputContainer}>
@@ -68,8 +59,6 @@ function Login({ onLoginSuccess }) {
   );
 }
 
-
-// Estilos básicos en línea (puedes moverlos a un archivo CSS si prefieres)
 const styles = {
   container: {
     display: 'flex',
@@ -77,7 +66,19 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     height: '100vh',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#f5f5f5', // eliminar si se pone imagen de fondo
+  },
+  background: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundImage: 'url("")',  // Reemplazas esta URL con una imagen
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    zIndex: -1,
+    animation: 'moveBackground 10s infinite linear',
   },
   form: {
     display: 'flex',
@@ -112,6 +113,5 @@ const styles = {
     marginBottom: '15px',
   },
 };
-
 
 export default Login;
