@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 function Login({ onLoginSuccess }) {
   const [username, setUsername] = useState('');
@@ -12,7 +12,7 @@ function Login({ onLoginSuccess }) {
     e.preventDefault();
 
     // Simular validación del usuario
-    if (username === 'user' && password === 'pass') {
+    if (username === '1' && password === '1') {
       setError('');
       
       // Simulamos un token
@@ -55,6 +55,10 @@ function Login({ onLoginSuccess }) {
         {error && <p style={styles.error}>{error}</p>}
         <button type="submit" style={styles.button}>Ingresar</button>
       </form>
+      {/* Enlace para volver al Registrarse */}
+      <p style={styles.link}>
+        ¿Todavía no tienes una cuenta? <Link to="/register" style={styles.linkStyle}>Registrarse</Link>
+      </p>
     </div>
   );
 }
