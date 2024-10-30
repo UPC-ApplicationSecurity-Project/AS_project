@@ -5,6 +5,9 @@ function PublicarNoticias() {
   const [titulo, setTitulo] = useState('');
   const [url, setUrl] = useState('');
   const [error, setError] = useState('');
+
+  const dangerousChars = /[`´'"\\<>{}]/;
+
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -12,33 +15,39 @@ function PublicarNoticias() {
 
     // Validar que ambos campos estén llenos
     if (!titulo || !url) {
-      setError('Por favor, completa ambos campos.');
+      setError('Todos los campos son obligatorios');
       return;
     }
+    // Validar que no haya caracteres peligrosos -> evitar SQLinjection
+    else if (dangerousChars.test(titulo) || dangerousChars.test(url)) {
+      setError('No se permiten caracteres especiales en los campos');
+      return;
+    }
+    else{
+      setError('');
 
-    setError('');
-
-    // Simular el envío de la noticia a una API
-    const nuevaNoticia = { titulo, url };
-    
-    // Simulación de una llamada a la API
-    fetch('/api/noticias', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(nuevaNoticia),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Noticia enviada:', data);
-        // Redirigir a la página de Noticias
-        navigate('/noticias');
+      // Simular el envío de la noticia a una API
+      const nuevaNoticia = { titulo, url };
+      
+      // Simulación de una llamada a la API
+      fetch('/api/noticias', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(nuevaNoticia),
       })
-      .catch((error) => {
-        console.error('Error al enviar la noticia:', error);
-        setError('Hubo un error al enviar la noticia.');
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Noticia enviada:', data);
+          // Redirigir a la página de Noticias
+          navigate('/noticias');
+        })
+        .catch((error) => {
+          console.error('Error al enviar la noticia:', error);
+          setError('Hubo un error al enviar la noticia.');
+        });
+    }
   };
 
   return (

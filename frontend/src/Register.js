@@ -5,8 +5,12 @@ const Register = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setError] = useState('');
+
+  const dangerousChars = /[`´'"\\<>{}]/;
+
   const navigate = useNavigate();
+
 
   // Función para validar el email y evitar inyecciones
   const validateEmail = (email) => {
@@ -15,57 +19,63 @@ const Register = () => {
   };
 
   // Función para validar que el nombre de usuario y contraseña no tengan caracteres peligrosos
-  const validateInput = (input) => {
+  const validateUsername = (input) => {
     const re = /^[a-zA-Z0-9_]{3,}$/; // Solo letras, números y guiones bajos
     return re.test(input);
   };
 
+  
   // Función que maneja el registro
   const handleRegister = (e) => {
     e.preventDefault();
-
+    // Campos no  vacios
+    if (!username || !email || !password) {
+      setError('Todos los campos son obligatorios');
+      return;
+    }
+    else if (dangerousChars.test(username) || dangerousChars.test(password)) {
+      setError('No se permiten caracteres especiales en los campos');
+      return;
+    }
     // Validar los campos
-    if (!validateInput(username)) {
-      setErrorMessage('Nombre de usuario inválido. Solo se permiten letras, números y guiones bajos.');
+    else if (!validateUsername(username)) {
+      setError('Nombre de usuario inválido. Solo se permiten letras, números y guiones bajos.');
       return;
     }
-    if (!validateEmail(email)) {
-      setErrorMessage('Correo electrónico inválido.');
-      return;
-    }
-    if (!validateInput(password)) {
-      setErrorMessage('Contraseña inválida. Debe tener al menos 3 caracteres y solo contener letras, números y guiones bajos.');
+    else if (!validateEmail(email)) {
+      setError('Correo electrónico inválido.');
       return;
     }
 
-    // Si todo es válido, se comentaría esta parte para mandar los datos a la API
-    // const userData = {
-    //   username,
-    //   email,
-    //   password,
-    // };
-    // fetch('/api/register', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(userData),
-    // })
-    // .then(response => response.json())
-    // .then(data => {
-    //   if (data.success) {
-    //     // Redirigir al login
-    //     navigate('/login');
-    //   } else {
-    //     setErrorMessage(data.message || 'Error en el registro');
-    //   }
-    // })
-    // .catch((error) => {
-    //   setErrorMessage('Error en el registro');
-    // });
+    else{   // Si todo es válido, se mandan los datos a la API
+        // const userData = {
+        //   username,
+        //   email,
+        //   password,
+        // };
+        // fetch('/api/register', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify(userData),
+        // })
+        // .then(response => response.json())
+        // .then(data => {
+        //   if (data.success) {
+        //     // Redirigir al login
+        //     navigate('/login');
+        //   } else {
+        //     setError(data.message || 'Error en el registro');
+        //   }
+        // })
+        // .catch((error) => {
+        //   setError('Error en el registro');
+        // });
 
-    // Simular redirección al login tras el registro exitoso
-    navigate('/login');
+        // Simular redirección al login tras el registro exitoso
+        navigate('/login');
+    }
   };
 
   return (

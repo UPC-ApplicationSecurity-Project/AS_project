@@ -6,27 +6,44 @@ function Login({ onLoginSuccess }) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  const dangerousChars = /[`´'"\\<>{}]/;
+  const validUsernameCharacters = /^[A-Za-z0-9_]+$/;
+
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
-
-    // Simular validación del usuario
-    if (username === '1' && password === '1') {
-      setError('');
-      
-      // Simulamos un token
-      const fakeToken = 'abc123token';
-      
-      // Llamamos la función que simula la autenticación exitosa
-      onLoginSuccess(fakeToken);
-
-      navigate('/noticias');
-    } else {
-      setError('Usuario o contraseña incorrectos');
+    // Campos no  vacios
+    if (!username || !password) {
+      setError('Todos los campos son obligatorios');
+      return;
     }
-  };
+    else if( !validUsernameCharacters.test(username)){
+      setError('Campo username no válido. Solo puede contener letras, números y guines bajos');
+    }
+    // Validar que no haya caracteres peligrosos -> evitar SQLinjection
+    else if (dangerousChars.test(username) || dangerousChars.test(password)) {
+      setError('No se permiten caracteres especiales en los campos');
+      return;
+    }
+    
+    else{
+      // aquí habrá que hacer llamada a API con username y password como argumentos
+      if (username === '1' && password === '1') {
+        setError('');
+        // Simulamos un token
+        const fakeToken = 'abc123token';
+        // Llamamos la función que simula la autenticación exitosa
+        onLoginSuccess(fakeToken);
+        navigate('/noticias');
+      } 
+      else {
+        setError('Usuario o contraseña incorrectos');
+      }
+    }
 
+  };
+  
   return (
     <div style={styles.container}>
       <div style={styles.background}></div> {/* Fondo animado */}

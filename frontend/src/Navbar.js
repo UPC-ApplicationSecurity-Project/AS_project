@@ -6,7 +6,7 @@ function Navbar({ isAuthenticated, onLogout }) {
     <nav style={styles.navbar}>
       {/* Sección del logo o nombre de la página */}
       <div style={styles.brand}>
-        <text style={{ ...styles.button, ...styles.brandButton }}>MiSitioNoticias</text>
+        MiSitioDeNoticias
         {/* <Link to="/" style={{ ...styles.button, ...styles.brandButton }}>MiSitioNoticias</Link> */}
       </div>
 
