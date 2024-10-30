@@ -4,3 +4,19 @@ comando de inicialización:
 ```
 npm start
 ```
+
+# backend
+
+Instructions to initialize the backend (Not Complete)
+Migrate database to MySQL
+```
+python manage.py migrate
+```
+
+Initialize MySQL tables
+```
+python manage.py makemigrations
+python manage.py migrate
+
+
+TODO: Import data.
