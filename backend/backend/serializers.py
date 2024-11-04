@@ -4,7 +4,7 @@ from .models import *
 # Create your serializers.here.
 class userSerializer(serilizers.ModelSerilizer):
     user_id = serializers.IntegerField()
-    username = serializers.CharField(max_length=18, unique=True)
+    username = serializers.CharField(max_length=18)
     created_at = serializers.DateTimeField()
     class Meta:
         model = users
