@@ -9,7 +9,7 @@ from .models import posts
 from .serilizers import postSerializer
 
 # Create your views here.
-
+'''
 class Home(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
@@ -17,3 +17,29 @@ class Home(APIView):
     def get(self,request):
         content = {'message':'Hello, World!'}
         return Responsi(content)
+'''
+
+@api_view(['GET','POST'])
+def user(request):
+
+
+@api_view(['GET','POST'])
+def posts(request):
+
+
+@api_view(['GET','POST'])
+def post(request):
+
+
+@api_view(['GET','POST'])
+def admin(request):
+
+
+@api_view(['GET','POST'])
+def tmp(request):
+
+
+@api_view(['GET','POST'])
+def tmp2(request):
+
+
