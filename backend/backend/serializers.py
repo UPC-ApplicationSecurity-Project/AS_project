@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import *
 
 # Create your serializers.here.
-class userSerializer(serilizers.ModelSerilizer):
+class userSerializer(serializers.ModelSerializer):
     user_id = serializers.IntegerField()
     username = serializers.CharField(max_length=18)
     created_at = serializers.DateTimeField()
@@ -10,21 +10,21 @@ class userSerializer(serilizers.ModelSerilizer):
         model = users
         fiels=('user_id','username')
 
-class roleSerializer(serilizers.ModelSerilizer):
+class roleSerializer(serializers.ModelSerializer):
     role_id = serializers.IntegerField()
     role_name = serializers.CharField(max_length=8,)
     class Meta:
-        model = role 
+        model = roles 
         fiels=('role_id','role_name')
 
-class user_roleSerializer(serilizers.ModelSerilizer):
+class user_roleSerializer(serializers.ModelSerializer):
     user = serializers.IntegerField()
     role = serializers.IntegerField()
     class Meta:
         model = users
         fiels=('user','role')
 
-class postSerializer(serilizers.ModelSerilizer):
+class postSerializer(serializers.ModelSerializer):
     post_id = serializers.IntegerField()
     user_id = serializers.IntegerField()
     title = serializers.CharField(max_length=30)

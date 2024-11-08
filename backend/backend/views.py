@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .models import posts
-from .serilizers import postSerializer
+from .serializers import postSerializer
 
 # Create your views here.
 '''
@@ -17,7 +17,6 @@ class Home(APIView):
     def get(self,request):
         content = {'message':'Hello, World!'}
         return Responsi(content)
-'''
 
 @api_view(['GET','POST'])
 def user(request):
@@ -41,5 +40,4 @@ def tmp(request):
 
 @api_view(['GET','POST'])
 def tmp2(request):
-
-
+'''
