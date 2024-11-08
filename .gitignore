@@ -1,4 +1,6 @@
 backend/backend/migrations
+.DS_STORE
 *.pyc
 *,pyc
+**/.DS_STORE
 **/__pycache__/
