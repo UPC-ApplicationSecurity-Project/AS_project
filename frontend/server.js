@@ -8,8 +8,8 @@ const PORT = 443;
 
 // Set up SSL certificates
 const sslOptions = {
-  key: fs.readFileSync('/etc/ssl/app-sec/app-sec.key'),       // Path to your private key
-  cert: fs.readFileSync('/etc/ssl/app-sec/app-sec.crt'),    // Path to your full chain certificate
+  key: fs.readFileSync('/etc/ssl/app-sec/app-sec.key'),       
+  cert: fs.readFileSync('/etc/ssl/app-sec/app-sec.crt'),    
 };
 
 // Serve the static files from the React app
@@ -33,4 +33,3 @@ http.createServer((req, res) => {
 }).listen(80, () => {
   console.log('HTTP Server is redirecting all traffic to HTTPS on port 443');
 });
-
