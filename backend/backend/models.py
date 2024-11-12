@@ -1,23 +1,39 @@
 from django.db import models
-
+#from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 # Create your models here.
-class users(models.Model):
-    user_id = models.IntegerField(primary_key=True)
+    
+class NewUser(models.Model):
+    ROLE_CHOICES = [
+        ('Admin', 'Admin'),
+        ('Usuario', 'Usuario'),
+    ]
     username = models.CharField(max_length=18, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='Usuario')
+    password = models.CharField(max_length=500)  # Store the hashed password
 
-class roles(models.Model):
-    role_id = models.IntegerField(primary_key=True)
-    role_name = models.CharField(max_length=8, unique=True)
+    def save(self, *args, **kwargs):
+        # Hash the password only if it’s not already hashed
+        if not self.password.startswith('pbkdf2_'):  # Check if password is already hashed
+            self.password = make_password(self.password)
+        super().save(*args, **kwargs)
 
-class user_role(models.Model):
-    user = models.ForeignKey(users, on_delete=models.CASCADE)
-    role = models.ForeignKey(roles, on_delete=models.DO_NOTHING)
+    def __str__(self):
+        return f"{self.username} - {self.role}"
 
-class posts(models.Model):
-    post_id = models.IntegerField(primary_key=True)
-    user_id = models.ForeignKey(users, on_delete = models.SET_NULL, null=True)
+
+class post(models.Model):
+    id = models.AutoField(primary_key=True)
+    ROLE_CHOICES_POST = [
+        ('Private', 'Private'),
+        ('Public', 'Public'),
+    ]
+    #id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(NewUser, on_delete = models.SET_NULL, null=True)
     title = models.CharField(max_length=30)
-    body = models.CharField(max_length=1000)
-    status = models.CharField(max_length=10)
+    body = models.TextField(blank = True)
+    status = models.CharField(max_length=10, choices=ROLE_CHOICES_POST, default='Public')
     created_at = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+         return self.title

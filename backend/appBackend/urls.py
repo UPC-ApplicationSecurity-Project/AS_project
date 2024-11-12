@@ -14,12 +14,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+#from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework.documentation import include_docs_urls
+from backend.urls import post_urlpatterns, NewUser_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/toke/',TokenObtainPairView.as_view(),name='token_obtain_pair'),
-    path('api/toke/refresh/',TokenRefreshView.as_view(),name='token_refresh'),
+    #path('api/toke/',TokenObtainPairView.as_view(),name='token_obtain_pair'),
+    #path('api/toke/refresh/',TokenRefreshView.as_view(),name='token_refresh'),
+    path("docs/", include_docs_urls(title = 'Foro - AS')),
+    path('post/', include(post_urlpatterns)),
+    path('NewUser/', include(NewUser_urlpatterns))
 ]
