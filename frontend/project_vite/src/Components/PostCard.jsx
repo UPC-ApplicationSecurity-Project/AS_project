@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom"
 
 //COMPENENTE WEB QUE GUARDA LOS VALORES DE CADA NOTICIA
-
 //Funcion que permite redireccionar a ../PublicarNoticias para editar Noticia
 export function PostCard({ post }) {
 
