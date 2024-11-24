@@ -1,0 +1,36 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-sizing: border-box; /* Evita desbordamientos */
+  }
+  
+  .navbar-logo a {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .navbar-buttons {
+    display: flex;
+    gap: 15px; /* Controlamos el espaciado entre los botones */
+    flex-wrap: nowrap; /* Evita que los botones se vayan a una nueva línea */
+  }
+  
+  .navbar-buttons a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1rem;
+  }
+  
+  .navbar-buttons a:hover {
+    color: #007bff;
+  }
+  
