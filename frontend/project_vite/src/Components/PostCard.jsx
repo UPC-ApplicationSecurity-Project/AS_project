@@ -1,21 +1,24 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+import '/src/Pages/Noticias.css'; // Asegúrate de que los estilos estén importados
 
-//COMPENENTE WEB QUE GUARDA LOS VALORES DE CADA NOTICIA
-//Funcion que permite redireccionar a ../PublicarNoticias para editar Noticia
+// COMPONENTE WEB QUE GUARDA LOS VALORES DE CADA NOTICIA
 export function PostCard({ post }) {
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     return (
-    <div style={{background: "yellow"}}
-    
-        onClick={() => {
-            navigate('/PublicarNoticias/' + post.id)//Permite editar la noticia con una pagina web personalizada con su id
-        }}
-    >   {/*Muestra el titulo y cuerpo de todas las noticias*/} 
-        <h1/>{post.title}<h1/> 
-        <p>{post.body}</p>
-    </div>
+        <div 
+            className="post-card" // Aplica la clase de estilo para la tarjeta
+            onClick={() => {
+                navigate('/PublicarNoticias/' + post.id); // Redirecciona para editar la noticia
+            }}
+        >
+            {/* Título de la noticia */}
+            <h2 className="post-title">{post.title}</h2>
+
+            {/* Cuerpo de la noticia */}
+            <p className="post-content">{post.body}</p>
+        </div>
     );
 }
 
