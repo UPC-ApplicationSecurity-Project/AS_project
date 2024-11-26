@@ -18,7 +18,7 @@ export function PostCard({ post }) {
         >
             {/* Título de la noticia */}
             <h2 className="post-title">{post.title}</h2>
-            <h2 className="post-link">enlace</h2>
+            <h2 className="post-link">{post.link ? post.link : ''}</h2>
 
             {/* Cuerpo de la noticia */}
             <p className="post-content">{post.body}</p>

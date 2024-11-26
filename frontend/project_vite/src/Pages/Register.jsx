@@ -68,6 +68,7 @@ const Register = () => {
         if (!response.ok) {
           const errorData = await response.json();
           setError(errorData.message || 'Error al registrar usuario');
+          alert(errorData.message)
           return;
         }
     
