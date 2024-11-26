@@ -7,7 +7,6 @@ import './Noticias.css';  // Importa el archivo de estilos
 function Noticias() {
   return (
     <>
-      <Navbar />
       {/* Contenedor principal para las noticias */}
       <div className="news-container">
         <h1 style={{ textAlign: 'center', color: '#333' }}>Noticias Recientes</h1>

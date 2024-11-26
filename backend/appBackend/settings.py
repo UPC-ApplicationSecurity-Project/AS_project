@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'coreapi',
     'backend',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -152,8 +153,13 @@ SIMPLE_JWT = {
 
 #Cors authorization
 CORS_ALLOWED_ORIGINS = [
+<<<<<<< HEAD
     'https://localhost'
     
+=======
+    'http://localhost:5173',
+    'https://localhost'
+>>>>>>> b02bdf366ecd7c6ca9395a1d6e873aad79ae4e38
 ]
 
 REST_FRAMEWORK = {

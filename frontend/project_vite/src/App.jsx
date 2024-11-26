@@ -42,7 +42,7 @@ const App = () => {
   return (
     <Router>
       {/* Solo mostramos el Navbar si el usuario está autenticado */}
-      {accessToken && <Navbar isAuthenticated={!!accessToken} onLogout={handleLogout} />}
+      {accessToken && <Navbar onLogout={handleLogout} />}
       
       <Routes>
         {/* Si el usuario ya tiene un token, redirige a /noticias en lugar de mostrar login */}
@@ -65,7 +65,7 @@ const App = () => {
 
         {/* Ruta protegida para Publicar Noticias */}
         <Route
-          path="/publicar"
+          path="/PublicarNoticias"
           element={accessToken ? <PublicarNoticias /> : <Navigate to="/login" replace />}
         />
 

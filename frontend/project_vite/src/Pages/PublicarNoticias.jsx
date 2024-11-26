@@ -39,7 +39,6 @@ export function PublicarNoticias() {
 
   return (
     <>
-      <Navbar />
       <div className="container">
         <h1>{params.id ? "Editar Noticia" : "Crear Nueva Noticia"}</h1>
         <form className="form" onSubmit={onSubmit}>
