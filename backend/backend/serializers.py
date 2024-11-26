@@ -18,4 +18,4 @@ class UserManager(serializers.ModelSerializer):
     fields = '__all__'
     def create_user(self,email,username,password, alias=None):
         NewUser.save(username,password,email)
-        return user
+        return User
