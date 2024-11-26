@@ -31,7 +31,7 @@ class post(models.Model):
         ('Public', 'Public'),
     ]
     #id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete = models.SET_NULL, null=True)
+    user = models.ForeignKey(NewUser, on_delete = models.SET_NULL, null=True)
     title = models.CharField(max_length=30)
     body = models.TextField(blank = True)
     status = models.CharField(max_length=10, choices=ROLE_CHOICES_POST, default='Public')
