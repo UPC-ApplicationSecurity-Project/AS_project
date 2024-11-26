@@ -1,26 +1,25 @@
-import { useEffect, useState }  from "react"
-import { getAllPosts } from "../API/Noticias.api.js"
-import PostCard from './PostCard'
+import { useEffect, useState } from "react";
+import { getAllPosts } from "../API/Noticias.api.js";
+import PostCard from './PostCard';
+import '/src/Pages/Noticias.css'; // Importa el archivo de estilos
 
-//COMPONENTE WEB QUE PERMITE LISTAR LAS TAREAS LA FUNCION API GETALLPOSTS
-
-
+// COMPONENTE QUE PERMITE LISTAR LAS NOTICIAS
 export function PostList() {
-    const [posts, setPosts] = useState([])//Crea instancia posts que almacenara datos del backend
+    const [posts, setPosts] = useState([]); // Crea instancia posts que almacenará datos del backend
 
-    
-    useEffect (() => {
-        async function LoadPost() { 
+    useEffect(() => {
+        async function LoadPost() {
             const res = await getAllPosts(); // Extrae todas las noticias del backend
-        setPosts(res.data) // Y las asigna la data a instancia posts
+            setPosts(res.data); // Asigna la data a la instancia posts
         }
         LoadPost();
-        
     }, []);
 
-    return <div>
-        {posts.map(post => ( //mapea cada uno de los elementos de posts (Noticia1, Noticia2, ....)
-            <PostCard  key={post.id} post={post} />//llama a la funcion PostCard y le envia el id de las noticias
-        ))}
-    </div>;
+    return (
+        <div className="post-list"> {/* Contenedor para la lista de posts */}
+            {posts.map(post => (
+                <PostCard key={post.id} post={post} /> // Llama a PostCard por cada post y pasa la data
+            ))}
+        </div>
+    );
 }
