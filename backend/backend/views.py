@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-#from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound
 from .serializers import postSerializer, NewUserSerializer, UserManager
 from .models import post, NewUser
 
@@ -27,8 +27,17 @@ class postView(viewsets.ModelViewSet):
         new_post.save()
         return Response("Post created")
 
-    def update(self,request):
-        return Response(None)
+    def update(self,request,pk=None):#PUT request
+        editPost = self.get_object()
+        #return Response(editPost.user)
+        if editPost.user == NewUser.objects.get(pk=request.user.pk):
+            editPost.title = request.POST.get('title')
+            editPost.body = request.POST.get('body')
+            editPost.status = request.POST.get('status')
+            editPost.full_clean()
+            editPost.save()
+            return Response("Post edited successfully")
+        return Response("Not owner",status=403)
 
 class NewUserView(viewsets.ModelViewSet):
     serializer_class = NewUserSerializer
