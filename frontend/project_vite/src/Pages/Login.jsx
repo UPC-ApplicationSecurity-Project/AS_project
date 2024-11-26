@@ -11,7 +11,7 @@ function Login({ onLoginSuccess }) {
 
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     // Campos no  vacios
     if (!username || !password) {
@@ -28,18 +28,51 @@ function Login({ onLoginSuccess }) {
     }
     
     else{
-      // aquí habrá que hacer llamada a API con username y password como argumentos
-      if (username === '1' && password === '1') {
-        setError('');
-        // Simulamos un token
-        const fakeToken = 'abc123token';
-        // Llamamos la función que simula la autenticación exitosa
-        onLoginSuccess(fakeToken);
-        navigate('/noticias');
-      } 
-      else {
-        setError('Usuario o contraseña incorrectos');
+      // llamada a API con username y password como argumentos
+      const userData = {
+        username,
+        password,
+      };
+      try {
+        // Llamada a la API
+        const response = await fetch('http://127.0.0.1:8000/api/token/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userData),
+        });
+    
+        // Revisar código de estado HTTP
+        if (!response.ok) {
+          if (response.status == 401){
+            setError('Nombre de ususario o contraseña incorrectos.')
+          }
+          else{
+             setError( 'Error al acceder. Intentelo más tarde');
+          }
+          const errorData = await response.json();
+          return;
+        }
+    
+        // Procesar respuesta exitosa y guardar token
+        const data = await response.json();
+        console.log('Status code:', response.status);
+        console.log('Datos de respuesta:', data);
+        onLoginSuccess(data.access, data.refresh);
+        setError('ok')
+        
+        // Redirigir tras éxito
+      } catch (error) {
+        // Manejo de errores en caso de fallo en la conexión o la solicitud
+        console.error('Error en el registro:');
+        setError('No se pudo conectar con el servidor. Inténtalo más tarde.');
       }
+
+     
+
+
+    //
     }
 
   };

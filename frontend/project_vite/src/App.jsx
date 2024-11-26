@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './Pages/Login';
 import Noticias from './Pages/Noticias';
 import PublicarNoticias from './Pages/PublicarNoticias';
@@ -7,24 +7,76 @@ import { EditUser }  from './Pages/User';
 import Navbar from './Components/Navbar';
 import Register from './Pages/Register';
 
-function App() {
-  return (
-    //Redireccionamiento a las páginas web
-    <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Navigate to="login"/>} /> 
-      <Route path="/login" element={<Login/>} />
-      <Route path="/register" element={<Register/>} />
-      <Route path="/Noticias" element={<Noticias/>} />
-      <Route path="/PublicarNoticias" element={<PublicarNoticias/>} />
-      <Route path="/PublicarNoticias/:id" element={<PublicarNoticias/>} />
-      <Route path="/admin" element={<CreateUser/>} />
-      <Route path="/user/" element={<EditUser/>} />
-      <Route path="/user/:id" element={<EditUser/>} />
-    </Routes>  
-    </BrowserRouter>
-  )
+import React, { useState, useEffect } from 'react';
 
-}
+const App = () => {
+  const [accessToken, setAccessToken] = useState(() => {
+    return localStorage.getItem('accessToken');  // Recuperamos el token de localStorage
+  });
+  const [refreshToken, setRefreshToken] = useState(() => {
+    return localStorage.getItem('refreshToken');  // Recuperamos el token de localStorage
+  }); 
+
+  // Función para manejar el éxito del login
+  const handleLoginSuccess = (token_a, token_r) => {
+    setAccessToken(token_a);
+    setRefreshToken(token_r)
+    localStorage.setItem('accessToken', token_a);  // Guardar el accessToken 
+    localStorage.setItem('accessToken', token_r);  // Guardar el refreshToken
+    console.log(accessToken, refreshToken)
+  };
+
+  // Función para cerrar sesión
+  const handleLogout = () => {
+    setAccessToken(null);
+    setRefreshToken(null);
+    localStorage.removeItem('accessToken');  // Eliminar el token
+    localStorage.removeItem('refreshToken');  // Eliminar el token
+  };
+
+  useEffect(() => {
+    console.log('accessToken:', accessToken);  // Verificar si el token cambia
+    console.log('refreshToken:', refreshToken);  // Verificar si el token cambia
+  });
+
+  return (
+    <Router>
+      {/* Solo mostramos el Navbar si el usuario está autenticado */}
+      {accessToken && <Navbar isAuthenticated={!!accessToken} onLogout={handleLogout} />}
+      
+      <Routes>
+        {/* Si el usuario ya tiene un token, redirige a /noticias en lugar de mostrar login */}
+        <Route 
+          path="/login" 
+          element={accessToken ? <Navigate to="/Noticias" replace /> : <Login onLoginSuccess={handleLoginSuccess} />} 
+        />
+
+        {/* Ruta para el registro */}
+        <Route
+          path="/register"
+          element={accessToken ? <Navigate to="/noticias" replace /> : <Register />}
+        />
+
+        {/* Ruta protegida para Noticias */}
+        <Route
+          path="/noticias"
+          element={accessToken ? <Noticias onLogout={handleLogout} /> : <Navigate to="/login" replace />}
+        />
+
+        {/* Ruta protegida para Publicar Noticias */}
+        <Route
+          path="/publicar"
+          element={accessToken ? <PublicarNoticias /> : <Navigate to="/login" replace />}
+        />
+
+        {/* Ruta por defecto */}
+        <Route
+          path="/"
+          element={accessToken ? <Navigate to="/noticias" replace /> : <Navigate to="/login" replace />}
+        />
+      </Routes>
+    </Router>
+  );
+};
 
 export default App;
