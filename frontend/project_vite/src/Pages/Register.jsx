@@ -26,7 +26,7 @@ const Register = () => {
 
   
   // Función que maneja el registro
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     // Campos no  vacios
     if (!username || !email || !password) {
@@ -48,33 +48,44 @@ const Register = () => {
     }
 
     else{   // Si todo es válido, se mandan los datos a la API
-        // const userData = {
-        //   username,
-        //   email,
-        //   password,
-        // };
-        // fetch('/api/register', {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify(userData),
-        // })
-        // .then(response => response.json())
-        // .then(data => {
-        //   if (data.success) {
-        //     // Redirigir al login
-        //     navigate('/login');
-        //   } else {
-        //     setError(data.message || 'Error en el registro');
-        //   }
-        // })
-        // .catch((error) => {
-        //   setError('Error en el registro');
-        // });
+      const userData = {
+        username,
+        email,
+        password,
+      };
+    
+      try {
+        // Llamada a la API
+        const response = await fetch('http://127.0.0.1:8000/NewUser/api/list_NewUser/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userData),
+        });
+    
+        // Revisar código de estado HTTP
+        if (!response.ok) {
+          const errorData = await response.json();
+          setError(errorData.message || 'Error al registrar usuario');
+          return;
+        }
+    
+        // Procesar respuesta exitosa
+        const data = await response.json();
+        console.log('Status code:', response.status);
+        console.log('Datos de respuesta:', data);
+    
+        // Redirigir tras éxito
+        navigate('/login');
+      } catch (error) {
+        // Manejo de errores en caso de fallo en la conexión o la solicitud
+        console.error('Error en el registro:', error);
+        setError('No se pudo conectar con el servidor. Inténtalo más tarde.');
+      }
 
         // Simular redirección al login tras el registro exitoso
-        navigate('/login');
+        // navigate('/login');
     }
   };
 
