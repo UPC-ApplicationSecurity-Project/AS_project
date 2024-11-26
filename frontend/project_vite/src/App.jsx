@@ -60,7 +60,7 @@ const App = () => {
         {/* Ruta protegida para Noticias */}
         <Route
           path="/noticias"
-          element={accessToken ? <Noticias onLogout={handleLogout} /> : <Navigate to="/login" replace />}
+          element={accessToken ? <Noticias accessToken /> : <Navigate to="/login" replace />}
         />
 
         {/* Ruta protegida para Publicar Noticias */}

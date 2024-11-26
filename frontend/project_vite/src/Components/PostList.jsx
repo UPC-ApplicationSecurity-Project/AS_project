@@ -4,19 +4,29 @@ import PostCard from './PostCard';
 import '/src/Pages/Noticias.css'; // Importa el archivo de estilos
 
 // COMPONENTE QUE PERMITE LISTAR LAS NOTICIAS
-export function PostList() {
+export function PostList({ accessToken }) { // Recibe accessToken como prop
     const [posts, setPosts] = useState([]); // Crea instancia posts que almacenará datos del backend
+    const [error, setError] = useState(null); // Para manejar errores
 
     useEffect(() => {
         async function LoadPost() {
-            const res = await getAllPosts(); // Extrae todas las noticias del backend
-            setPosts(res.data); // Asigna la data a la instancia posts
+            try {
+                const res = await getAllPosts(accessToken); // Llama a la API con el token
+                setPosts(res.data); // Asigna la data a la instancia posts
+            } catch (err) {
+                setError('No se pudieron cargar las noticias.'); // Maneja errores de la API
+                console.error(err);
+            }
         }
         LoadPost();
-    }, []);
+    }, [accessToken]);
+
+    if (error) {
+        return <div className="error-message">{error}</div>; // Muestra mensaje de error si ocurre
+    }
 
     return (
-        <div className="post-list"> {/* Contenedor para la lista de posts */}
+        <div className="post-list">
             {posts.map(post => (
                 <PostCard key={post.id} post={post} /> // Llama a PostCard por cada post y pasa la data
             ))}

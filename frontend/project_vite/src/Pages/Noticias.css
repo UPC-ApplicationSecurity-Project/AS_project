@@ -80,6 +80,12 @@ h1 {
   margin-bottom: 10px;
 }
 
+.post-link {
+  font-size: 12px;
+  font-weight: 400;
+  color: #34495e;
+  margin-bottom: 10px;
+}
 .post-content {
   font-size: 16px;
   color: #7f8c8d;
