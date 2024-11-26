@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export function Navbar({ isAuthenticated, onLogout }) {
+export function Navbar({ onLogout }) {
   return (
     <nav style={styles.navbar}>
       {/* Sección del logo o nombre de la página */}
