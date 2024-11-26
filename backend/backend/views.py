@@ -11,6 +11,8 @@ from .serializers import postSerializer, NewUserSerializer, UserManager
 from .models import post, NewUser
 
 class postView(viewsets.ModelViewSet):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     serializer_class = postSerializer
     queryset = post.objects.all()
 

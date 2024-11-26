@@ -1,9 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser, User
 from django.contrib.auth.hashers import make_password
 # Create your models here.
     
-class NewUser(AbstractBaseUser):
+class NewUser(User):
     ROLE_CHOICES = [
         ('Admin', 'Admin'),
         ('Usuario', 'Usuario'),

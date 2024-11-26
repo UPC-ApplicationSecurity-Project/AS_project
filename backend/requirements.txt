@@ -2,3 +2,6 @@ Django
 djangorestframework
 djangorestframework_simplejwt
 django-cors-headers
+django-extensions
+Werkzeug
+pyOpenssl
