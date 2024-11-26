@@ -6,7 +6,7 @@ export function Navbar({ isAuthenticated, onLogout }) {
     <nav style={styles.navbar}>
       {/* Sección del logo o nombre de la página */}
       <div style={styles.brand}>
-        MiSitioDeNoticias
+        Forum AS
         {/* <Link to="/" style={{ ...styles.button, ...styles.brandButton }}>MiSitioNoticias</Link> */}
       </div>
 
@@ -16,7 +16,7 @@ export function Navbar({ isAuthenticated, onLogout }) {
           <Link to="/noticias" style={{ ...styles.button, ...styles.noticiasButton }}>Noticias</Link>
         </li>
         <li style={styles.navItem}>
-          <Link to="/PublicarNoticias" style={{ ...styles.button, ...styles.publicarButton }}>Publicar Noticias</Link>
+          <Link to="/PublicarNoticias" style={{ ...styles.button, ...styles.publicarButton }}>Publicar</Link>
         </li>
         <li style={styles.navItem}>
           <button onClick={onLogout} style={{ ...styles.button, ...styles.logoutButton }}>Cerrar Sesión</button>
