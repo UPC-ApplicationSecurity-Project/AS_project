@@ -1,98 +1,118 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { createPosts, deletePosts, updatePosts, getPost} from '../API/Noticias.api' 
+import { createPosts, deletePosts, updatePosts, getPost } from '../API/Noticias.api'; 
 import { useNavigate, useParams } from 'react-router-dom';
 import { Navbar } from '../Components/Navbar';
-
-//PÁGINA QUE PERMITE EDITAR O CREAR UNA NOTICIA.
+import './PublicarNoticias.css'; // Asegúrate de tener un archivo CSS vinculado
 
 export function PublicarNoticias() {
-  //Define elemntos de la libreria useform para usarlas luego
   const { 
     register, 
     handleSubmit, 
     formState: { errors },
     setValue
-   } = useForm ();
-   //Crea instancia de las funciones para usarlas luego:
-   //UseNavigate(): Para redireccionar a otras paginas web
-   const navigate = useNavigate()
-   //UseParams(): Para extraer los datos de data mas adelante
-   const params = useParams()
-   //Crea instancia de handlesubmit, permite usar los valores de data
+   } = useForm();
+   const navigate = useNavigate();
+   const params = useParams();
+
    const onSubmit = handleSubmit(async (data) => {
-    if (params.id) {//Si el id de data existe permite Update la noticia de lo contrario permite Crear la noticia
-      updatePosts(params.id, data)//Funcion de API updatePost()
+    if (params.id) {
+      await updatePosts(params.id, data);
     } else {
-     await createPosts(data);//Funcion de API createPost()
+      await createPosts(data);
     }
-    navigate ('/Noticias');// luego de editar o crear redirecciona a noticias
+    navigate('/Noticias');
    });
 
-
-  //LLENADO DE DATOS PARA EDITADO DE POST, permite editar noticias con la informacion precargada.
   useEffect(() => {
     async function loadPost() {
-    if (params.id) {
-      const {data} = await getPost(params.id);
-      setValue('title', data.title)
-      setValue('body', data.body)
-      setValue('status', data.status)
-      setValue('user', data.user)
+      if (params.id) {
+        const { data } = await getPost(params.id);
+        setValue('title', data.title);
+        setValue('body', data.body);
+        setValue('status', data.status);
+        setValue('user', data.user);
+      }
     }
-  }
-  loadPost();
- }, [])
+    loadPost();
+  }, [params.id, setValue]);
 
+  return (
+    <>
+      <Navbar />
+      <div className="container">
+        <h1>{params.id ? "Editar Noticia" : "Crear Nueva Noticia"}</h1>
+        <form className="form" onSubmit={onSubmit}>
+          <label>
+            Título:
+            <input 
+              type="text" 
+              placeholder="Título de la noticia"
+              {...register('title', { required: true })}
+              className={errors.title ? "input-error" : ""}
+            />
+            {errors.title && <span className="error-message">El título es obligatorio</span>}
+          </label>
 
-  return (<><Navbar />
-    <div>
-      {/*Crea un formulario para ingresar los datos del post*/}
-      <form onSubmit={onSubmit}>
-        <input 
-        type="text" 
-        placeholder="title"
-        {...register('title', {required: true})}>{/*Establece campo title obligatorio*/}
-        </input>
-        {errors.title && <span>Title is required</span>}
+          <label>
+            Contenido:
+            <textarea 
+              rows="10" 
+              placeholder="Contenido de la noticia"
+              {...register('body', { required: true })}
+              className={errors.body ? "input-error" : ""}
+            />
+            {errors.body && <span className="error-message">El contenido es obligatorio</span>}
+          </label>
 
-        <textarea 
-        rows="10" 
-        placeholder="Body"
-        {...register('body', {required: true})}>{/*Establece campo body obligatorio*/}
-        </textarea>
-        {errors.body && <span>Body is required</span>}
+          <label>
+            Estado:
+            <select {...register('status', { required: true })}>
+              <option value="Private">Privado</option>
+              <option value="Public">Público</option>
+            </select>
+            {errors.status && <span className="error-message">El estado es obligatorio</span>}
+          </label>
 
-        <select 
-        placeholder="Status"
-        {...register('status', {required: true})}>{/*Establece campo body obligatorio*/}
-          <option value="Private">Private</option>{/*Limita selección de valores 2 opciones*/}
-          <option value="Public">Public</option>
-        </select>
-        {errors.status && <span>Status is required</span>}
+          <label>
+            Usuario:
+            <input 
+              type="text" 
+              placeholder="Usuario"
+              {...register('user', { required: true })}
+              className={errors.user ? "input-error" : ""}
+            />
+            {errors.user && <span className="error-message">El usuario es obligatorio</span>}
+          </label>
 
-        <input 
-        type="text" 
-        placeholder="user"
-        {...register('user', {required: true})}>{/*Establece campo user obligatorio*/}
-        </input>
-        {errors.username && <span>Username is required</span>}
-
-        <button>Save</button>{/*boton para guarda datos*/}
-      </form>
-      {/*Establece si la url temrina en .../PublicarNoticias/id se mostrará el botón delete -> que llama al API DeletePost */}
-      {params.id && <button onClick = {async() => {
-        const accepted = window.confirm('are you sure?')
-        if (accepted) {
-          await deletePosts(params.id);
-          navigate('/Noticias');
-        }
-      }}> Delete </button>}
-      {/*Al presionar el boton cancelar redirecciona a Noticias sin guardar ningun valor*/}
-      {<button onClick={() => {
-      navigate('/Noticias');
-    } }> Cancelar </button>}
-    </div></>
+          <div className="button-group">
+            <button type="submit" className="btn save-btn">Guardar</button>
+            {params.id && (
+              <button 
+                type="button" 
+                className="btn delete-btn"
+                onClick={async () => {
+                  const accepted = window.confirm('¿Estás seguro de eliminar esta noticia?');
+                  if (accepted) {
+                    await deletePosts(params.id);
+                    navigate('/Noticias');
+                  }
+                }}
+              >
+                Eliminar
+              </button>
+            )}
+            <button 
+              type="button" 
+              className="btn cancel-btn"
+              onClick={() => navigate('/Noticias')}
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
   );
 }
 
