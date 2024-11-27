@@ -141,6 +141,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':(
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
 
 SIMPLE_JWT = {
@@ -156,13 +157,9 @@ SIMPLE_JWT = {
 }
 
 #Cors authorization
-#CORS_ALLOWED_ORIGINS = [
+# CORS_ALLOWED_ORIGINS = [
 #    'http://localhost:5173',
-#    'https://localhost'
-#]
+#    'https://localhost:443'
+# ]
 
 CORS_ALLOW_ALL_ORIGINS = True
-
-REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
-}

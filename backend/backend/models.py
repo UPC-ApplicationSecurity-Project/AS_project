@@ -8,10 +8,8 @@ class NewUser(User):
         ('Admin', 'Admin'),
         ('Usuario', 'Usuario'),
     ]
-    #username = models.CharField(max_length=18, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='Usuario')
-    #password = models.CharField(max_length=500)  # Store the hashed password
 
     def save(self, *args, **kwargs):
         # Hash the password only if it’s not already hashed
