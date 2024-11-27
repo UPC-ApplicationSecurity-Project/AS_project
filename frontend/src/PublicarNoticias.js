@@ -12,8 +12,6 @@ function PublicarNoticias() {
 
   const navigate = useNavigate();
 
-  
-
 
 
   const handleSubmit = async () => {

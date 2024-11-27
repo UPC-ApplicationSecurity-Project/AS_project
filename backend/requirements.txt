@@ -5,3 +5,4 @@ django-cors-headers
 django-extensions
 Werkzeug
 pyOpenssl
+coreapi
