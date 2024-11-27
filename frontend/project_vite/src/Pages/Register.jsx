@@ -56,7 +56,7 @@ const Register = () => {
     
       try {
         // Llamada a la API
-        const response = await fetch('http://127.0.0.1:8000/NewUser/api/list_NewUser/', {
+        const response = await fetch('https://127.0.0.1:8000/NewUser/api/list_NewUser/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
