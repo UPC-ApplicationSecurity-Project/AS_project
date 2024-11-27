@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, action
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -40,6 +40,7 @@ class postView(viewsets.ModelViewSet):
         return Response("Not owner",status=403)
 
 class NewUserView(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
     serializer_class = NewUserSerializer
     queryset = NewUser.objects.all()
 
