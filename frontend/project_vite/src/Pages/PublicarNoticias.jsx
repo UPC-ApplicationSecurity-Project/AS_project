@@ -6,7 +6,7 @@ import { Navbar } from '../Components/Navbar';
 import './PublicarNoticias.css'; // Asegúrate de tener un archivo CSS vinculado
 import axios from "axios";
 
-export function PublicarNoticias() {
+export function PublicarNoticias(accessToken) {
   const { register, handleSubmit, formState: { errors }, setValue } = useForm();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false); // Estado para el indicador de carga
@@ -54,6 +54,9 @@ export function PublicarNoticias() {
         setLoading(false);
         return;
       }
+      else{
+       console.log('virus total no ha detectado ningún problema con al URL.')
+      }
     } catch (error) {
       console.error("Error verificando la URL:", error);
       alert("Hubo un problema verificando la URL. Por favor, intenta nuevamente.");
@@ -62,7 +65,7 @@ export function PublicarNoticias() {
     }
     
 
-    /////
+    // FALLA
     if (params.id) {
       await updatePosts(params.id, data);
     } else {
