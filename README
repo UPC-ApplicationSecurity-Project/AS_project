@@ -18,5 +18,4 @@ Initialize MySQL tables
 python manage.py makemigrations
 python manage.py migrate
 
-
-TODO: Import data.
+python manage.py runserver_plus --cert-file app-sec.crt
