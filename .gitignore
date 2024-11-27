@@ -7,3 +7,4 @@ backend/backend/migrations
 **/__pycache__/
 **/node_modules/
 FINAL_PROJECT/
+**/package-lock.json
