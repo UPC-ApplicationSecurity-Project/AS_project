@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.documentation import include_docs_urls
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from backend.urls import post_urlpatterns, NewUser_urlpatterns, Home_urlpatterns
+from backend.urls import post_urlpatterns, NewUser_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,5 +27,5 @@ urlpatterns = [
     path('NewUser/', include(NewUser_urlpatterns)),
     path('api/token/',TokenObtainPairView.as_view(),name='token_obtain_pair'),
     path('api/token/refresh/',TokenRefreshView.as_view(),name='token_obtain_pair'),
-    path('home/',include(Home_urlpatterns))
+    #path('home/',include(Home_urlpatterns))
 ]

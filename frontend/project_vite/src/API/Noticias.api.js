@@ -4,7 +4,12 @@ const postApi = axios.create({
      baseURL: 'http://localhost:8000/post/api/list_post/',
  });
 
-export const getAllPosts = () => postApi.get('/');
+ export const getAllPosts = ({accessToken}) => postApi.get('/', {
+    headers: {
+      Authorization: `Bearer ${accessToken}`, // Correctly include the token
+    },
+
+  });
 
 export const getPost = (id) => postApi.get(`/${id}/`, id);
 

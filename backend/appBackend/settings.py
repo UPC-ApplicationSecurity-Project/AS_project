@@ -144,11 +144,15 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
-     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
-     'SLIDING_TOKEN_LIFETIME': timedelta(days=30),
-     'SLIDING_TOKEN_REFRESH_LIFETIME_LATER_USER': timedelta(days=1),
-     'SLIDING_TOKEN_LIFETIME_LATE_USER': timedelta(days=30),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # 1-hour access token
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),    # 1-day refresh token
+    'ROTATE_REFRESH_TOKENS': False,                # Default behavior
+    'BLACKLIST_AFTER_ROTATION': True,              # Blacklist refresh tokens on rotation
+    'UPDATE_LAST_LOGIN': False,                    # Update `last_login` field on login
+
+    # Optional sliding token configuration
+    'SLIDING_TOKEN_LIFETIME': timedelta(days=30),               # Lifetime of sliding token
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),        # Sliding token refresh lifetime
 }
 
 #Cors authorization

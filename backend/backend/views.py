@@ -44,10 +44,10 @@ class NewUserView(viewsets.ModelViewSet):
     queryset = NewUser.objects.all()
 
 
-class Home(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+# class Home(APIView):
+#     authentication_classes = [JWTAuthentication]
+#     permission_classes = [IsAuthenticated]
 
-    def get(self,request):
-        content = {'message':'Hello, World!'}
-        return Response(content)
+#     def get(self,request):
+#         content = {'message':'Hello, World!'}
+#         return Response(content)

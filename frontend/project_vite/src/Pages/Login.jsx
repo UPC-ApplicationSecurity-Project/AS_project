@@ -58,8 +58,9 @@ function Login({ onLoginSuccess }) {
         // Procesar respuesta exitosa y guardar token
         const data = await response.json();
         console.log('Status code:', response.status);
-        console.log('Datos de respuesta:', data);
+        //console.log('Datos de respuesta:', data);
         onLoginSuccess(data.access, data.refresh);
+        //console.log('onLoginSuccess.data.access', onLoginSuccess.data.access);
         setError('ok')
         
         // Redirigir tras éxito

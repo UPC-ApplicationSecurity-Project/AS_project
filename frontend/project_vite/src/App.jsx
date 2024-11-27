@@ -20,10 +20,13 @@ const App = () => {
   // Función para manejar el éxito del login
   const handleLoginSuccess = (token_a, token_r) => {
     setAccessToken(token_a);
-    setRefreshToken(token_r)
-    localStorage.setItem('accessToken', token_a);  // Guardar el accessToken 
-    localStorage.setItem('accessToken', token_r);  // Guardar el refreshToken
-    console.log(accessToken, refreshToken)
+    setRefreshToken(token_r);
+    console.log(token_a)
+    console.log(token_r)
+    //localStorage.setItem('accessToken', token_a);  // Guardar el accessToken 
+    //localStorage.setItem('refreshToken', token_r);  // Guardar el refreshToken
+    //console.log(accessToken)
+    //console.log(refreshToken)
   };
 
   // Función para cerrar sesión
@@ -35,8 +38,8 @@ const App = () => {
   };
 
   useEffect(() => {
-    console.log('accessToken:', accessToken);  // Verificar si el token cambia
-    console.log('refreshToken:', refreshToken);  // Verificar si el token cambia
+    //console.log('accessToken:', accessToken);  // Verificar si el token cambia
+    //console.log('refreshToken:', refreshToken);  // Verificar si el token cambia
   });
 
   return (
@@ -60,7 +63,7 @@ const App = () => {
         {/* Ruta protegida para Noticias */}
         <Route
           path="/noticias"
-          element={accessToken ? <Noticias accessToken /> : <Navigate to="/login" replace />}
+          element={accessToken ? <Noticias accessToken={accessToken} /> : <Navigate to="/login" replace />}
         />
 
         {/* Ruta protegida para Publicar Noticias */}

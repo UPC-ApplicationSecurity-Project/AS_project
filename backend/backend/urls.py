@@ -17,7 +17,3 @@ post_urlpatterns = [
 NewUser_urlpatterns = [
     path("api/", include(router_NewUser.urls)),
 ]
-
-Home_urlpatterns = [
-    path("",views.Home.as_view()),
-]

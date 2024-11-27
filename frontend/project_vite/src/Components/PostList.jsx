@@ -11,8 +11,10 @@ export function PostList({ accessToken }) { // Recibe accessToken como prop
     useEffect(() => {
         async function LoadPost() {
             try {
+                console.log('PostList',accessToken);
                 const res = await getAllPosts(accessToken); // Llama a la API con el token
-                setPosts(res.data); // Asigna la data a la instancia posts
+                setPosts(res.data);
+                console.log(res);// Asigna la data a la instancia posts
             } catch (err) {
                 setError('No se pudieron cargar las noticias.'); // Maneja errores de la API
                 console.error(err);
