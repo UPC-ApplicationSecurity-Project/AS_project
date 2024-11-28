@@ -72,6 +72,13 @@ const App = () => {
           element={accessToken ? <PublicarNoticias accessToken={accessToken} /> : <Navigate to="/login" replace />}
         />
 
+        {/* Ruta protegida para Editar Noticias */}
+        <Route
+          path="/PublicarNoticias/:id"
+          element={accessToken ? <PublicarNoticias accessToken={accessToken} /> : <Navigate to="/login" replace />}
+        />
+
+
         {/* Ruta por defecto */}
         <Route
           path="/"

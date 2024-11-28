@@ -9,83 +9,83 @@ import axios from "axios";
 export function PublicarNoticias(accessToken) {
   const { register, handleSubmit, formState: { errors }, setValue } = useForm();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false); // Estado para el indicador de carga
+  //const [loading, setLoading] = useState(false); // Estado para el indicador de carga
 
   const params = useParams();
 
 
   // Función para interactuar con la API de VirusTotal
-  const checkUrl = async (urlToCheck) => {
-    setLoading(true); // Activa el indicador de carga
-    const apiKey = "5f7636be24bdbdc757982d629550721cc1fb7d536517da47b8ae34f59d61e0af"; // Reemplaza con tu clave API
-    const baseUrl = "https://www.virustotal.com/api/v3";
+  // const checkUrl = async (urlToCheck) => {
+  //   setLoading(true); // Activa el indicador de carga
+  //   const apiKey = "5f7636be24bdbdc757982d629550721cc1fb7d536517da47b8ae34f59d61e0af"; // Reemplaza con tu clave API
+  //   const baseUrl = "https://www.virustotal.com/api/v3";
   
-    // Paso 1: Envía la URL para análisis
-    const response = await axios.post(
-      `${baseUrl}/urls`,
-      `url=${encodeURIComponent(urlToCheck)}`, // La URL debe enviarse como una cadena codificada
-      {
-        headers: {
-          "x-apikey": apiKey,
-          "Content-Type": "application/x-www-form-urlencoded", // Tipo correcto para enviar datos URL-encoded
-        },
-      }
-    );
-    // Obtén el ID del análisis
-    const analysisId = response.data.data.id;
-    // Paso 2: Consulta el estado del análisis
-    const analysisResponse = await axios.get(`${baseUrl}/analyses/${analysisId}`, {
-      headers: { "x-apikey": apiKey },
-    });
-    // Verifica los resultados del análisis
-    const stats = analysisResponse.data.data.attributes.stats;
-    return stats.malicious > 0; // Retorna true si hay detecciones maliciosas
-  };
+  //   // Paso 1: Envía la URL para análisis
+  //   const response = await axios.post(
+  //     `${baseUrl}/urls`,
+  //     `url=${encodeURIComponent(urlToCheck)}`, // La URL debe enviarse como una cadena codificada
+  //     {
+  //       headers: {
+  //         "x-apikey": apiKey,
+  //         "Content-Type": "application/x-www-form-urlencoded", // Tipo correcto para enviar datos URL-encoded
+  //       },
+  //     }
+  //   );
+  //   // Obtén el ID del análisis
+  //   const analysisId = response.data.data.id;
+  //   // Paso 2: Consulta el estado del análisis
+  //   const analysisResponse = await axios.get(`${baseUrl}/analyses/${analysisId}`, {
+  //     headers: { "x-apikey": apiKey },
+  //   });
+  //   // Verifica los resultados del análisis
+  //   const stats = analysisResponse.data.data.attributes.stats;
+  //   return stats.malicious > 0; // Retorna true si hay detecciones maliciosas
+  // };
 
 
 
 
-  const onSubmit = handleSubmit(async (data) => {
-    console.log('SUBMIT')
-    try {
-      const isMalicious = await checkUrl(data.link); // Llama a la función para analizar la URL
-      if (isMalicious) {
-        alert("La URL puede ser maliciosa o perjudicial para los usuarios");
-        setLoading(false);
-        return;
-      }
-      else{
-       console.log('virus total no ha detectado ningún problema con al URL.')
-      }
-    } catch (error) {
-      console.error("Error verificando la URL:", error);
-      alert("Hubo un problema verificando la URL. Por favor, intenta nuevamente.");
-      setLoading(false);
-      return;
-    }
+  // const onSubmit = handleSubmit(async (data) => {
+  //   console.log('SUBMIT')
+  //   try {
+  //     const isMalicious = await checkUrl(data.link); // Llama a la función para analizar la URL
+  //     if (isMalicious) {
+  //       alert("La URL puede ser maliciosa o perjudicial para los usuarios");
+  //       setLoading(false);
+  //       return;
+  //     }
+  //     else{
+  //      console.log('virus total no ha detectado ningún problema con al URL.')
+  //     }
+  //   } catch (error) {
+  //     console.error("Error verificando la URL:", error);
+  //     alert("Hubo un problema verificando la URL. Por favor, intenta nuevamente.");
+  //     setLoading(false);
+  //     return;
+  //   }
     
-
+  const onSubmit = handleSubmit(async (data) => {
     // FALLA
     if (params.id) {
-      await updatePosts(params.id, data);
+      updatePosts(params.id, data, accessToken);
     } else {
-      await createPosts(data);
+      await createPosts(data, accessToken);
     }
-    setLoading(false);
+    //setLoading(false);
     navigate('/Noticias');
   });
 
   useEffect(() => {
-    async function loadPost() {
+    async function loadPost(accessToken) {
       if (params.id) {
-        const { data } = await getPost(params.id);
+        const { data } = await getPost(params.id, accessToken);
         setValue('title', data.title);
         setValue('body', data.body);
         setValue('link', data.link);
       }
     }
-    loadPost();
-  }, [params.id, setValue]);
+    loadPost(accessToken);
+  }, []);
 
   return (
     <>
@@ -107,7 +107,7 @@ export function PublicarNoticias(accessToken) {
             Contenido:
             <textarea 
               rows="10" 
-              placeholder="Contenido de la noticia"
+              placeholder="Comentarios"
               {...register('body', { required: true })}
               className={errors.body ? "input-error" : ""}
             />
@@ -134,7 +134,7 @@ export function PublicarNoticias(accessToken) {
                 onClick={async () => {
                   const accepted = window.confirm('¿Estás seguro de eliminar esta noticia?');
                   if (accepted) {
-                    await deletePosts(params.id);
+                    await deletePosts(params.id, accessToken);
                     setLoading(false);
                     navigate('/Noticias');
                   }
@@ -156,5 +156,6 @@ export function PublicarNoticias(accessToken) {
     </>
   );
 }
+
 
 export default PublicarNoticias;
