@@ -15,32 +15,32 @@ export function PublicarNoticias(accessToken) {
 
 
   // Función para interactuar con la API de VirusTotal
-  // const checkUrl = async (urlToCheck) => {
-  //   setLoading(true); // Activa el indicador de carga
-  //   const apiKey = "5f7636be24bdbdc757982d629550721cc1fb7d536517da47b8ae34f59d61e0af"; // Reemplaza con tu clave API
-  //   const baseUrl = "https://www.virustotal.com/api/v3";
+  const checkUrl = async (urlToCheck) => {
+    // setLoading(true); // Activa el indicador de carga
+    const apiKey = "5f7636be24bdbdc757982d629550721cc1fb7d536517da47b8ae34f59d61e0af"; // Reemplaza con tu clave API
+    const baseUrl = "https://www.virustotal.com/api/v3";
   
-  //   // Paso 1: Envía la URL para análisis
-  //   const response = await axios.post(
-  //     `${baseUrl}/urls`,
-  //     `url=${encodeURIComponent(urlToCheck)}`, // La URL debe enviarse como una cadena codificada
-  //     {
-  //       headers: {
-  //         "x-apikey": apiKey,
-  //         "Content-Type": "application/x-www-form-urlencoded", // Tipo correcto para enviar datos URL-encoded
-  //       },
-  //     }
-  //   );
-  //   // Obtén el ID del análisis
-  //   const analysisId = response.data.data.id;
-  //   // Paso 2: Consulta el estado del análisis
-  //   const analysisResponse = await axios.get(`${baseUrl}/analyses/${analysisId}`, {
-  //     headers: { "x-apikey": apiKey },
-  //   });
-  //   // Verifica los resultados del análisis
-  //   const stats = analysisResponse.data.data.attributes.stats;
-  //   return stats.malicious > 0; // Retorna true si hay detecciones maliciosas
-  // };
+    // Paso 1: Envía la URL para análisis
+    const response = await axios.post(
+      `${baseUrl}/urls`,
+      `url=${encodeURIComponent(urlToCheck)}`, // La URL debe enviarse como una cadena codificada
+      {
+        headers: {
+          "x-apikey": apiKey,
+          "Content-Type": "application/x-www-form-urlencoded", // Tipo correcto para enviar datos URL-encoded
+        },
+      }
+    );
+    // Obtén el ID del análisis
+    const analysisId = response.data.data.id;
+    // Paso 2: Consulta el estado del análisis
+    const analysisResponse = await axios.get(`${baseUrl}/analyses/${analysisId}`, {
+      headers: { "x-apikey": apiKey },
+    });
+    // Verifica los resultados del análisis
+    const stats = analysisResponse.data.data.attributes.stats;
+    return stats.malicious > 0; // Retorna true si hay detecciones maliciosas
+  };
 
 
 
@@ -69,6 +69,17 @@ export function PublicarNoticias(accessToken) {
     if (params.id) {
       updatePosts(params.id, data, accessToken);
     } else {
+      console.log(data.link);
+      const isMalicious = await checkUrl(data.link); // Llama a la función para analizar la URL
+      if (isMalicious) {
+        alert("La URL puede ser maliciosa o perjudicial para los usuarios");
+        return;
+      }
+      else{
+       console.log('virus total no ha detectado ningún problema con al URL.')
+      }
+
+
       await createPosts(data, accessToken);
     }
     //setLoading(false);
