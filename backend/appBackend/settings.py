@@ -167,3 +167,14 @@ CORS_ALLOW_ALL_ORIGINS = True
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
+
+TINK_FIELDS_CONFIG = {
+        "another":{
+            "cleartext":False,
+            "path":BASE_DIR / "tink/encrypted_keyset.json",
+            },
+        "default":{
+            "cleartext":True,
+            "path":BASE_DIR / "tink/cleartext_keyset.json",
+            }
+        }
