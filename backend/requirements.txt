@@ -6,3 +6,5 @@ django-extensions
 Werkzeug
 pyOpenssl
 coreapi
+django-tink-fields
+tink
