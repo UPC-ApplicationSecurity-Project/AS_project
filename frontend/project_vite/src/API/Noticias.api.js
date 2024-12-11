@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const postApi = axios.create({
-     baseURL: 'http://localhost:8000/post/api/list_post/',
+     baseURL: 'https://localhost:8000/post/api/list_post/',
  });
 
 export const getAllPosts = ({accessToken}) => postApi.get('/', {

@@ -24,6 +24,7 @@ class NewUser(User):
         self.is_active = True
         if not self.password.startswith('pbkdf2_'):  # Check if password is already hashed
             self.password = make_password(self.password)
+        self.username = User.username
         super().save(*args, **kwargs)
 
     def __str__(self):

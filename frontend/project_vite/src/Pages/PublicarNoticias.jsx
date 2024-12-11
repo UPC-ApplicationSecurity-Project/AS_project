@@ -66,9 +66,9 @@ export function PublicarNoticias(accessToken) {
     
   const onSubmit = handleSubmit(async (data) => {
     // FALLA
-    if (params.id) {
+    //if (params.id) {
       updatePosts(params.id, data, accessToken);
-    } else {
+    /*} else {
       console.log(data.link);
       const isMalicious = await checkUrl(data.link); // Llama a la función para analizar la URL
       if (isMalicious) {
@@ -79,9 +79,9 @@ export function PublicarNoticias(accessToken) {
        console.log('virus total no ha detectado ningún problema con al URL.')
       }
 
-
+*/
       await createPosts(data, accessToken);
-    }
+    //}
     //setLoading(false);
     navigate('/Noticias');
   });
